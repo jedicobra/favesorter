@@ -34,7 +34,7 @@ function roundRobin(items){
     return rounds;
 }
 
-export default function ChoiceArea({onChoiceClick, itemList}){
+export default function ChoiceArea({itemList}){
     const listOfMatchups = roundRobin(itemList)
     const [currentRound, setCurrentRound] = useState(0);
     const [likes, setLikes] = useState( Array(itemList.length).fill(0) );
@@ -75,9 +75,31 @@ export default function ChoiceArea({onChoiceClick, itemList}){
     })
 
     if(gameOver){
-      // find winner
-      let winnerId = likes.reduce((iMax, x, i, arr) => x > arr[iMax] ? i : iMax, 0);
-      console.log("done, winner is " + itemList[winnerId].name)
+      let itemsWithScores = []
+      for(let i=0; i<itemList.length; i++){
+        itemsWithScores.push(
+          {score: likes[i], name: itemList[i].name, id: itemList[i].id, imageUrl: itemList[i].imageUrl})
+      }
+      itemsWithScores.sort((a, b) => a.score-b.score).reverse();
+
+      const listItems = itemsWithScores.map(element => 
+        <div className='listElement'>
+          <img className='thumbnail' width='100' height='50' src={element.imageUrl} />
+          &ensp;&ensp;&ensp;&ensp;
+          <li>
+            name: {element.name} 
+            <br></br> 
+            score: {element.score}
+          </li>
+          <br></br>
+          <br></br>
+          <br></br>
+        </div >
+      );
+
+      return (<ol>{listItems}</ol>);
+
+
     }
     else{
       // update choices
