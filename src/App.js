@@ -1,25 +1,23 @@
-import logo from './logo.svg';
 import './App.css';
+import testList from './testdata.json'
+import { useState } from 'react';
+import ChoiceArea from './ChoiceArea';
+
+// fav sorter for arbitrary things
+// maybe you could swipe options away like cards
+// 64bits video
 
 function App() {
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <ChoiceArea itemList={testList.games}/>
     </div>
   );
 }
+
+
+
+
 
 export default App;

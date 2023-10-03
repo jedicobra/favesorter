@@ -1,0 +1,45 @@
+{
+    "games": [
+        {   
+            "id": 0,
+            "name": "mario",
+            "imageUrl": "http://nerdculturepodcast.com/wp-content/uploads/2013/07/Small_Mario_NSMBU.png"
+        },
+
+        {   
+            "id": 1,
+            "name": "luigi",
+            "imageUrl": "http://img3.wikia.nocookie.net/__cb20140723052830/thefakegees/images/1/1a/Green_Mario.png"
+        },
+
+        {
+            "id": 2,
+            "name": "red dead redemption",
+            "imageUrl": "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2F3.bp.blogspot.com%2F-TiAZ_p0oIns%2FUVB2gcJDVuI%2FAAAAAAAAKQw%2F9iX3wEkUL6s%2Fs1600%2FGun%2Bpc%2Bgame-1-www.filezooby.blogspot.com.jpeg&f=1&nofb=1&ipt=556bf3e2464768eb3d8e0e6b718ff391044bb3d01320bedec1902b3fe4311a7d&ipo=images"
+        },
+
+        {
+            "id": 3,
+            "name": "garrys mod",
+            "imageUrl": "https://gamecola.net/wp-content/uploads/2013/05/gm_construct0000.jpg"
+        },
+
+        {
+            "id": 4,
+            "name": "mario kart wii",
+            "imageUrl": "https://vgboxart.com/resources/render/13204_mario-kart-wii-prev.png"
+        },
+
+        {
+            "id": 5,
+            "name": "glover",
+            "imageUrl": "https://image.cnbcfm.com/api/v1/image/105230339-DonaldGlover-GettyImages-853332536.jpg?v=1532563633"
+        },
+
+        {
+            "id": 6,
+            "name": "world",
+            "imageUrl": "https://i.ytimg.com/vi/EJ9npqpMpN8/maxresdefault.jpg"
+        }
+    ]
+}
