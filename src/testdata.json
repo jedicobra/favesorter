@@ -1,5 +1,25 @@
 {
-    "games": [
+    "games":[
+        {   
+            "id": 0,
+            "name": "mario",
+            "imageUrl": "http://nerdculturepodcast.com/wp-content/uploads/2013/07/Small_Mario_NSMBU.png"
+        },
+
+        {   
+            "id": 1,
+            "name": "luigi",
+            "imageUrl": "http://img3.wikia.nocookie.net/__cb20140723052830/thefakegees/images/1/1a/Green_Mario.png"
+        },
+
+        {
+            "id": 2,
+            "name": "red dead redemption",
+            "imageUrl": "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2F3.bp.blogspot.com%2F-TiAZ_p0oIns%2FUVB2gcJDVuI%2FAAAAAAAAKQw%2F9iX3wEkUL6s%2Fs1600%2FGun%2Bpc%2Bgame-1-www.filezooby.blogspot.com.jpeg&f=1&nofb=1&ipt=556bf3e2464768eb3d8e0e6b718ff391044bb3d01320bedec1902b3fe4311a7d&ipo=images"
+        }
+    ],
+
+    "big_games": [
         {   
             "id": 0,
             "name": "mario",

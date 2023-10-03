@@ -36,38 +36,18 @@ function roundRobin(items){
 
 export default function ChoiceArea({onChoiceClick, itemList}){
     const listOfMatchups = roundRobin(itemList)
-    const [currentMatchup, setCurrentMatchup] = useState(1);
+    const [currentRound, setCurrentRound] = useState(0);
     const [likes, setLikes] = useState( Array(itemList.length).fill(0) );
-
-
-    //each choice has an id a name and an image address 
-    // [12, 'mario 2', 'https://nsa.gov/toad.png']
-    const [leftChoice, setLeftChoice] = useState( itemList[ listOfMatchups[0][0] ] ); 
-    const [rightChoice, setRightChoice] = useState( itemList[ listOfMatchups[0][1] ] );
-    
-
     
     function handleKeyPress(event) {
       // you have to do this or else we get 1 million keydowns per millisecond
       if (event.repeat) { return }
   
-      if(event.key === "ArrowLeft"){
+      if(event.key === "ArrowLeft")
         makeChoice("left");
-      }
-      else if(event.key === "ArrowRight"){
+      else if(event.key === "ArrowRight")
         makeChoice("right");
-      }
     }
-  
-    React.useEffect(function setupListener() {
-      window.addEventListener("keydown", handleKeyPress)
-  
-      return function cleanupListener() {
-        window.removeEventListener("keydown", handleKeyPress)
-      }
-    })
-
-
   
     function updateLikes(likedItemIndex){
       let incrementedLikes = likes.slice();
@@ -76,31 +56,41 @@ export default function ChoiceArea({onChoiceClick, itemList}){
     }
   
     function makeChoice(chosenValue){
-      if(currentMatchup + 1 === listOfMatchups.length){
-        let winnerId = likes.reduce((iMax, x, i, arr) => x > arr[iMax] ? i : iMax, 0);
-        alert("done, winner is " + itemList[winnerId].name)
+      if(gameOver)
         return
-      }
-
-
-      //update the chosen item's like score
-      let chosenItem = chosenValue === 'left' ? leftChoice : rightChoice;
-      updateLikes(chosenItem.id);
-  
-      
-
-      setCurrentMatchup(currentMatchup + 1);
-      
-      // update choices
-      setLeftChoice(itemList[ listOfMatchups[currentMatchup][0] ]);
-      setRightChoice(itemList[ listOfMatchups[currentMatchup][1] ]);
+      let chosenItemId = listOfMatchups[currentRound][chosenValue === 'left' ? 0 : 1];
+      updateLikes(chosenItemId);
+      setCurrentRound(currentRound + 1);
     }
+
+    let leftImageUrl, rightImageUrl = '';
+    let gameOver = currentRound === listOfMatchups.length;
+
+    React.useEffect(function setupListener() {
+      window.addEventListener("keydown", handleKeyPress)
   
+      return function cleanupListener() {
+        window.removeEventListener("keydown", handleKeyPress)
+      }
+    })
+
+    if(gameOver){
+      // find winner
+      let winnerId = likes.reduce((iMax, x, i, arr) => x > arr[iMax] ? i : iMax, 0);
+      console.log("done, winner is " + itemList[winnerId].name)
+    }
+    else{
+      // update choices
+      leftImageUrl = itemList[ listOfMatchups[currentRound][0] ].imageUrl;
+      rightImageUrl = itemList[ listOfMatchups[currentRound][1] ].imageUrl;
+    }
+
+
     return(
       <div className='ChoiceArea'>
-        <img width='200' height='200' onClick={() => makeChoice('left')} src={leftChoice.imageUrl} />
+        <img width='200' height='200' onClick={() => makeChoice('left')} src={leftImageUrl} />
         <div className='or'>OR...</div>
-        <img width='200' height='200' onClick={() => makeChoice('right')} src={rightChoice.imageUrl}/>
+        <img width='200' height='200' onClick={() => makeChoice('right')} src={rightImageUrl}/>
       </div>
     );
   }
