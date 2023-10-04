@@ -1,6 +1,5 @@
 import './App.css';
 import testList from './testdata.json'
-import { useState } from 'react';
 import ChoiceArea from './ChoiceArea';
 
 // fav sorter for arbitrary things

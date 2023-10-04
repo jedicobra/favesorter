@@ -59,11 +59,15 @@ export default function ChoiceArea({itemList}){
     function handleKeyPress(event) {
       if(event.key === "ArrowDown")
         undo();
+      else if(event.key === "ArrowUp")
+        makeChoice('tie');
+
 
       // you have to do this or else we get 1 million keydowns per millisecond
-      if (event.repeat) { return }
+      else if (event.repeat)
+        return 
   
-      if(event.key === "ArrowLeft")
+      else if(event.key === "ArrowLeft")
         makeChoice("left");
       else if(event.key === "ArrowRight")
         makeChoice("right");
@@ -108,7 +112,7 @@ export default function ChoiceArea({itemList}){
         result = 1;
       else if(chosenValue === 'right')
         result = 0;
-      else
+      else if(chosenValue === 'tie')
         result = 0.5;
 
       let increment = getRatingDelta(scores[left], scores[right], result)
@@ -171,7 +175,7 @@ export default function ChoiceArea({itemList}){
             <p>{leftItem.name}</p>
           </div>
           
-          <div className='or'>OR...</div>
+          <div className='vs'>VS</div>
 
           <div>
             <img width='200' height='200' onClick={() => makeChoice('right')} src={rightItem.imageUrl}/>
@@ -179,7 +183,11 @@ export default function ChoiceArea({itemList}){
           </div>
         </div>
         <br></br>
-        <button className='undo' onClick={() => undo()}>Undo</button>
+        <div className='buttonControls'>
+          <button className='button-39' onClick={() => undo()}>Undo</button>
+          &nbsp;&nbsp;&nbsp;&nbsp;
+          <button className='button-39' onClick={() => makeChoice('tie')}>Skip</button>
+        </div>
       </>
     );
   }

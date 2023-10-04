@@ -1,28 +1,35 @@
 .ChoiceArea {
   margin: auto;
-  margin-top: 40px;
+  margin-top: 100px;
   width: 60%;
-  border: 3px solid red;
   padding: 10px;
   text-align: center;
   display:flex;
   justify-content:center;
   align-items:center;
 }
-
-.or {
-  display: inline-block;
-  padding: 30px;
-  font-family: 'Courier New', Courier, monospace;
-  font-size: 200%;
+.ChoiceArea img{
+  transition: transform .2s;
+}
+.ChoiceArea img:hover{
+    transform: scale(1.05)
 }
 
-.undo {
+.vs {
+  display: inline-block;
+  padding: 30px;
+  font-size: 300%;
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  color: red;
+}
+
+.buttonControls {
   display:flex;
 
   margin: auto;
   justify-content:center;
 
+  
 }
 
 .rankedList{
@@ -35,4 +42,49 @@
   max-width:100px;
   height:auto;
   width:auto;
+}
+
+
+
+
+
+
+
+
+
+
+
+/* buttons */
+.button-39 {
+  background-color: #FFFFFF;
+  border: 1px solid rgb(209,213,219);
+  border-radius: .5rem;
+  box-sizing: border-box;
+  color: #111827;
+  font-family: "Inter var",ui-sans-serif,system-ui,-apple-system,system-ui,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+  font-size: .875rem;
+  font-weight: 600;
+  line-height: 1.25rem;
+  padding: .75rem 1rem;
+  text-align: center;
+  text-decoration: none #D1D5DB solid;
+  text-decoration-thickness: auto;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.button-39:hover {
+  background-color: rgb(249,250,251);
+}
+
+.button-39:focus {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
+.button-39:focus-visible {
+  box-shadow: none;
 }
