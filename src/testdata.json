@@ -1,21 +1,29 @@
 {
-    "games":[
+    "real_games":[
         {   
             "id": 0,
-            "name": "mario",
-            "imageUrl": "http://nerdculturepodcast.com/wp-content/uploads/2013/07/Small_Mario_NSMBU.png"
+            "name": "Super Mario Sunshine",
+            "imageUrl": "http://www.lukiegames.com/assets/images/GC/gc_super_mario_sunshine_p_3vhoon.jpg"
         },
-
         {   
             "id": 1,
-            "name": "luigi",
-            "imageUrl": "http://img3.wikia.nocookie.net/__cb20140723052830/thefakegees/images/1/1a/Green_Mario.png"
+            "name": "Undertale",
+            "imageUrl": "https://www.mobygames.com/images/covers/l/433295-undertale-ps-vita-front-cover.jpg"
         },
-
         {
             "id": 2,
-            "name": "red dead redemption",
-            "imageUrl": "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2F3.bp.blogspot.com%2F-TiAZ_p0oIns%2FUVB2gcJDVuI%2FAAAAAAAAKQw%2F9iX3wEkUL6s%2Fs1600%2FGun%2Bpc%2Bgame-1-www.filezooby.blogspot.com.jpeg&f=1&nofb=1&ipt=556bf3e2464768eb3d8e0e6b718ff391044bb3d01320bedec1902b3fe4311a7d&ipo=images"
+            "name": "Bowman 2",
+            "imageUrl": "https://cdn3.spiele-umsonst.de/flash_thumb/bowman2new.jpg"
+        },
+        {
+            "id": 3,
+            "name": "Roller Coaster Tycoon 3",
+            "imageUrl": "https://gpstatic.com/acache/47/90/1/us/packshot-23c822ff0059ef40a6007c7572de49e2.jpg"
+        },
+        {
+            "id": 4,
+            "name": "Poptropica",
+            "imageUrl": "https://lh3.googleusercontent.com/nZGaKMzXRhR4qoAYXZhZ6U2T4dZnH4PZajcet_4PwkK4aPWWauXi5THgtsJX-iD18L-2=h900"
         }
     ],
 

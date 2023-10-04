@@ -11,7 +11,7 @@ function App() {
 
   return (
     <div className="App">
-      <ChoiceArea itemList={testList.big_games}/>
+      <ChoiceArea itemList={testList.real_games}/>
     </div>
   );
 }

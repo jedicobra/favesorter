@@ -17,12 +17,22 @@
   font-size: 200%;
 }
 
-.listElement{
-  margin-left: 40%;
-  padding: 10px;
-  text-align: left;
+.undo {
   display:flex;
 
-  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  margin: auto;
+  justify-content:center;
 
+}
+
+.rankedList{
+  margin-left: 40%;
+  padding: 10px;
+}
+
+.rankedList img{
+  max-height:100px;
+  max-width:100px;
+  height:auto;
+  width:auto;
 }
