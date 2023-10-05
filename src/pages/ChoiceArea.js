@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Results from './Results';
 
 function getRatingDelta(myRating, opponentRating, myGameResult) {
   if ([0, 0.5, 1].indexOf(myGameResult) === -1) {
@@ -142,21 +143,7 @@ export default function ChoiceArea({itemList}){
       }
       itemsWithScores.sort((a, b) => a.score-b.score).reverse();
 
-      const listItems = itemsWithScores.map(element => 
-        <>
-          <img className='thumbnail' width='100' height='50' src={element.imageUrl} />
-          <li>
-            {element.name} 
-            <br></br> 
-            ELO: {element.score}
-          </li>
-          <br></br>
-          <br></br>
-          <br></br>
-        </>
-      );
-
-      return (<ol className='rankedList'>{listItems}</ol>);
+      return <Results itemsWithScores={itemsWithScores} />;
 
 
     }
@@ -170,16 +157,16 @@ export default function ChoiceArea({itemList}){
     return(
       <>
         <div className='ChoiceArea'>
-          <div>
-            <img width='200' height='200' onClick={() => makeChoice('left')} src={leftItem.imageUrl} />
-            <p>{leftItem.name}</p>
+          <div  className='choice'>
+            <img alt='Option 1' width='200' height='275' onClick={() => makeChoice('left')} src={leftItem.imageUrl} />
+            <p>{leftItem.name.toUpperCase()}</p>
           </div>
-          
-          <div className='vs'>VS</div>
 
-          <div>
-            <img width='200' height='200' onClick={() => makeChoice('right')} src={rightItem.imageUrl}/>
-            <p>{rightItem.name}</p>
+          <p className='vs'>VS.</p>
+
+          <div  className='choice'>
+            <img alt='Option 2' width='200' height='275' onClick={() => makeChoice('right')} src={rightItem.imageUrl}/>
+            <p>{rightItem.name.toUpperCase()}</p>
           </div>
         </div>
         <br></br>

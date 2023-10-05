@@ -1,27 +1,63 @@
 .ChoiceArea {
   margin: auto;
-  margin-top: 100px;
+  margin-top: 120px;
   width: 60%;
-  padding: 10px;
   text-align: center;
   display:flex;
   justify-content:center;
   align-items:center;
+  color: white;
+  font-weight: bold;
+  font-family: "Inter var",ui-sans-serif,system-ui,-apple-system,system-ui,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+
 }
-.ChoiceArea img{
-  transition: transform .2s;
+.choice > img{
+  margin-inline: 70px;
+  transition: transform .07s;
 }
-.ChoiceArea img:hover{
-    transform: scale(1.05)
+.choice > img:hover{
+  transform: scale(1.1, 1.1);
+}
+.choice > img:active{
+  transform: scale(1);
 }
 
-.vs {
-  display: inline-block;
-  padding: 30px;
-  font-size: 300%;
-  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-  color: red;
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(.9, .9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1, 1);
+  }
+  
 }
+
+.vs{
+  margin-top: 0;
+  margin-inline: 5%;
+  font-size: 300%;
+  color:white;
+  font-weight: bold;
+  font-style: italic;
+  font-family: 'Times New Roman', Times, serif;
+  animation: smokey 1.5s infinite ease-in-out;
+}
+
+@keyframes smokey {
+  0% {
+    text-shadow: 2px 2px 2px #ff0000, -2px -2px 3px #7700ff;
+ }
+  50% {
+    text-shadow: 5px 5px 6px #ff0000, -5px -5px 6px #7700ff;
+ }
+ 100% {
+  text-shadow: 2px 2px 2px #ff0000, -2px -2px 3px #7700ff;
+}
+}
+
 
 .buttonControls {
   display:flex;
@@ -57,7 +93,7 @@
 /* buttons */
 .button-39 {
   background-color: #FFFFFF;
-  border: 1px solid rgb(209,213,219);
+  border: 2px solid rgb(209,213,219);
   border-radius: .5rem;
   box-sizing: border-box;
   color: #111827;
@@ -69,7 +105,7 @@
   text-align: center;
   text-decoration: none #D1D5DB solid;
   text-decoration-thickness: auto;
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  box-shadow: 0 1px 2px 0 rgba(255, 255, 255, 0.05);
   cursor: pointer;
   user-select: none;
   -webkit-user-select: none;
@@ -77,7 +113,7 @@
 }
 
 .button-39:hover {
-  background-color: rgb(249,250,251);
+  background-color: rgb(220, 221, 223);
 }
 
 .button-39:focus {
