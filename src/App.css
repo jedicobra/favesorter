@@ -1,6 +1,6 @@
 .ChoiceArea {
   margin: auto;
-  margin-top: 120px;
+  margin-top: 150px;
   width: 60%;
   text-align: center;
   display:flex;
@@ -14,6 +14,7 @@
 .choice > img{
   margin-inline: 70px;
   transition: transform .07s;
+  scale: 140%;
 }
 .choice > img:hover{
   transform: scale(1.1, 1.1);
@@ -65,7 +66,7 @@
   margin: auto;
   justify-content:center;
 
-  
+  scale: 80%;  
 }
 
 .rankedList{
@@ -89,38 +90,46 @@
 
 
 
-
-/* buttons */
-.button-39 {
+/* CSS */
+.button-23 {
   background-color: #FFFFFF;
-  border: 2px solid rgb(209,213,219);
-  border-radius: .5rem;
+  border: 1px solid #222222;
+  border-radius: 8px;
   box-sizing: border-box;
-  color: #111827;
-  font-family: "Inter var",ui-sans-serif,system-ui,-apple-system,system-ui,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
-  font-size: .875rem;
-  font-weight: 600;
-  line-height: 1.25rem;
-  padding: .75rem 1rem;
-  text-align: center;
-  text-decoration: none #D1D5DB solid;
-  text-decoration-thickness: auto;
-  box-shadow: 0 1px 2px 0 rgba(255, 255, 255, 0.05);
+  color: #222222;
   cursor: pointer;
+  display: inline-block;
+  font-family: Circular,-apple-system,BlinkMacSystemFont,Roboto,"Helvetica Neue",sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 20px;
+  margin: 0;
+  outline: none;
+  padding: 13px 23px;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  touch-action: manipulation;
+  transition: box-shadow .2s,-ms-transform .1s,-webkit-transform .1s,transform .1s;
   user-select: none;
   -webkit-user-select: none;
-  touch-action: manipulation;
+  width: auto;
 }
 
-.button-39:hover {
-  background-color: rgb(220, 221, 223);
+.button-23:focus-visible {
+  box-shadow: #222222 0 0 0 2px, rgba(255, 255, 255, 0.8) 0 0 0 4px;
+  transition: box-shadow .2s;
 }
 
-.button-39:focus {
-  outline: 2px solid transparent;
-  outline-offset: 2px;
+.button-23:active {
+  background-color: #F7F7F7;
+  border-color: #000000;
+  transform: scale(.96);
 }
 
-.button-39:focus-visible {
-  box-shadow: none;
+.button-23:disabled {
+  border-color: #DDDDDD;
+  color: #DDDDDD;
+  cursor: not-allowed;
+  opacity: 1;
 }

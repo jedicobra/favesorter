@@ -171,9 +171,9 @@ export default function ChoiceArea({itemList}){
         </div>
         <br></br>
         <div className='buttonControls'>
-          <button className='button-39' onClick={() => undo()}>Undo</button>
+          <button className='button-23' onClick={() => undo()}>Undo</button>
           &nbsp;&nbsp;&nbsp;&nbsp;
-          <button className='button-39' onClick={() => makeChoice('tie')}>Skip</button>
+          <button className='button-23' onClick={() => makeChoice('tie')}>Skip</button>
         </div>
       </>
     );
