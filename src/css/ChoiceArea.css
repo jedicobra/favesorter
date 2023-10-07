@@ -1,0 +1,119 @@
+.ChoiceArea {
+    margin: auto;
+    margin-top: 100px;
+    width: 60%;
+    text-align: center;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    color: white;
+    font-weight: bold;
+    font-family: "Inter var",ui-sans-serif,system-ui,-apple-system,system-ui,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+
+  }
+
+  .choice > img{
+    margin-inline: 70px;
+    transition: transform .07s;
+    border-radius: 20px;
+  }
+  .choice > img:hover{
+    transform: scale(1.05, 1.05);
+  }
+  .choice > img:active{
+    transform: scale(1);
+  }
+  
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: scale(.9, .9);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1, 1);
+    }
+    
+  }
+  
+  .vs{
+    margin-top: 0;
+    margin-inline: 5%;
+    font-size: 300%;
+    color:white;
+    font-weight: bold;
+    font-style: italic;
+    font-family: 'Times New Roman', Times, serif;
+    animation: smokey 2.5s infinite ease-in-out;
+  }
+  
+  @keyframes smokey {
+    0% {
+      text-shadow: 2px 2px 2px #ff0000, -2px -2px 3px #7700ff;
+   }
+    50% {
+      text-shadow: 5px 5px 6px #ff0000, -5px -5px 6px #7700ff;
+   }
+   100% {
+    text-shadow: 2px 2px 2px #ff0000, -2px -2px 3px #7700ff;
+  }
+  }
+  
+  
+  .buttonControls {
+    display:flex;
+    justify-content:center;
+    margin-top: -150px;
+  
+  
+    scale: 80%;  
+  }
+  
+
+
+
+  
+/* CSS */
+.button-23 {
+    background-color: #363636;
+    border: 1px solid #222222;
+    border-radius: 8px;
+    box-sizing: border-box;
+    color: #ffffff;
+    cursor: pointer;
+    display: inline-block;
+    font-family: Circular,-apple-system,BlinkMacSystemFont,Roboto,"Helvetica Neue",sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 20px;
+    margin-inline: 10px;
+    outline: none;
+    padding: 13px 23px;
+    position: relative;
+    text-align: center;
+    text-decoration: none;
+    touch-action: manipulation;
+    transition: box-shadow .2s,-ms-transform .1s,-webkit-transform .1s,transform .1s;
+    user-select: none;
+    -webkit-user-select: none;
+    width: auto;
+  }
+  
+  .button-23:focus-visible {
+    box-shadow: #222222 0 0 0 2px, rgba(255, 255, 255, 0.8) 0 0 0 4px;
+    transition: box-shadow .2s;
+  }
+  
+  .button-23:active {
+    background-color: #F7F7F7;
+    border-color: #000000;
+    transform: scale(.96);
+  }
+  
+  .button-23:disabled {
+    border-color: #DDDDDD;
+    color: #DDDDDD;
+    cursor: not-allowed;
+    opacity: 1;
+  }
