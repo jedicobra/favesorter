@@ -1,15 +1,16 @@
+import '../css/Results.css'
+
 function Results({itemsWithScores}) {
   const listItems = itemsWithScores.map(element => 
     <>
-      <img alt="Thumbnail" className='thumbnail' width='100' height='50' src={element.imageUrl} />
+      <img alt="Thumbnail" className='thumbnail' width='50' height='50' src={element.imageUrl} />
       <li>
-        {element.name} 
+        <b>{element.name}</b>
         <br></br> 
         ELO: {element.score}
+        <br></br>
+        <br></br>
       </li>
-      <br></br>
-      <br></br>
-      <br></br>
     </>
   );
 

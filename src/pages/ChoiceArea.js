@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Results from './Results';
+import '../css/ChoiceArea.css'
 
 function getRatingDelta(myRating, opponentRating, myGameResult) {
   if ([0, 0.5, 1].indexOf(myGameResult) === -1) {
@@ -157,22 +158,21 @@ export default function ChoiceArea({itemList}){
     return(
       <>
         <div className='ChoiceArea'>
-          <div  className='choice'>
-            <img alt='Option 1' width='200' height='275' onClick={() => makeChoice('left')} src={leftItem.imageUrl} />
-            <p>{leftItem.name.toUpperCase()}</p>
+          <div className='choice'>
+            <img alt='Option 1' width='280' height='385' onClick={() => makeChoice('left')} src={leftItem.imageUrl} />
+            <p hidden='true'>{leftItem.name.toUpperCase()}</p>
           </div>
 
           <p className='vs'>VS.</p>
 
-          <div  className='choice'>
-            <img alt='Option 2' width='200' height='275' onClick={() => makeChoice('right')} src={rightItem.imageUrl}/>
-            <p>{rightItem.name.toUpperCase()}</p>
+          <div className='choice'>
+            <img alt='Option 2' width='280' height='385' onClick={() => makeChoice('right')} src={rightItem.imageUrl}/>
+            <p hidden='true'>{rightItem.name.toUpperCase()}</p>
           </div>
         </div>
         <br></br>
         <div className='buttonControls'>
           <button className='button-23' onClick={() => undo()}>Undo</button>
-          &nbsp;&nbsp;&nbsp;&nbsp;
           <button className='button-23' onClick={() => makeChoice('tie')}>Skip</button>
         </div>
       </>
