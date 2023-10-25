@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import Results from './Results';
-import '../css/ChoiceArea.css'
 
 function getRatingDelta(myRating, opponentRating, myGameResult) {
   if ([0, 0.5, 1].indexOf(myGameResult) === -1) {
@@ -49,132 +48,139 @@ function roundRobin(items){
 
 
 
+export default function ChoiceArea({categoryData}){
+  let id = 0;
+  let itemList = categoryData.filenames.map(name => buildItemList(name))
 
-
-export default function ChoiceArea({itemList}){
-    const listOfMatchups = roundRobin(itemList)
-    const [currentRound, setCurrentRound] = useState(0);
-    const [scores, setScores] = useState( Array(itemList.length).fill(1000.0) );
-    const [matchHistory, setMatchHistory] = useState([]);
-
-    
-    function handleKeyPress(event) {
-      if(event.key === "ArrowDown")
-        undo();
-      else if(event.key === "ArrowUp")
-        makeChoice('tie');
-
-
-      // you have to do this or else we get 1 million keydowns per millisecond
-      else if (event.repeat)
-        return 
-  
-      else if(event.key === "ArrowLeft")
-        makeChoice("left");
-      else if(event.key === "ArrowRight")
-        makeChoice("right");
-      
-    }
-  
-    function updateScores(left, right, increment){
-      let incrementedScores = scores.slice();
-
-      incrementedScores[left] += increment;
-      incrementedScores[right] -= increment;
-      setScores(incrementedScores);
-
-      let newHistory = matchHistory.slice();
-      newHistory.push({left, right, increment});
-      setMatchHistory(newHistory);
-    }
-
-    function undo(){
-      if(currentRound === 0)
-        return
-
-      setCurrentRound(currentRound-1);
-    
-      let newHistory = matchHistory.slice();
-      let lastMatch = newHistory.pop();
-
-      // reverse the last match
-      updateScores(
-        lastMatch.left, lastMatch.right, lastMatch.increment*-1);
-      setMatchHistory(newHistory);
-    }
-  
-    function makeChoice(chosenValue){
-      if(gameOver)
-        return
-      let choices = listOfMatchups[currentRound];
-      let left = choices[0]; let right = choices[1];
-      let result = -1;
-
-      if(chosenValue === 'left')
-        result = 1;
-      else if(chosenValue === 'right')
-        result = 0;
-      else if(chosenValue === 'tie')
-        result = 0.5;
-
-      let increment = getRatingDelta(scores[left], scores[right], result)
-
-      updateScores(left, right, increment);
-      setCurrentRound(currentRound + 1);
-    }
-
-    
-
-    let leftItem, rightItem = {id: -1, name: '', imageUrl: ''};
-    let gameOver = currentRound === listOfMatchups.length;
-
-    React.useEffect(function setupListener() {
-      window.addEventListener("keydown", handleKeyPress)
-  
-      return function cleanupListener() {
-        window.removeEventListener("keydown", handleKeyPress)
-      }
-    })
-
-    if(gameOver){
-      let itemsWithScores = []
-      for(let i=0; i<itemList.length; i++){
-        itemsWithScores.push(
-          {score: scores[i], name: itemList[i].name, id: itemList[i].id, imageUrl: itemList[i].imageUrl})
-      }
-      itemsWithScores.sort((a, b) => a.score-b.score).reverse();
-
-      return <Results itemsWithScores={itemsWithScores} />;
-
-
-    }
-    else{
-      // update choices
-      leftItem = itemList[ listOfMatchups[currentRound][0] ];
-      rightItem = itemList[ listOfMatchups[currentRound][1] ];
-    }
-
-
-    return(
-      <>
-        <div className='ChoiceArea'>
-          <div className='choice'>
-            <img alt='Option 1' width='280' height='385' onClick={() => makeChoice('left')} src={leftItem.imageUrl} />
-            <p hidden='true'>{leftItem.name.toUpperCase()}</p>
-          </div>
-
-          <p className='vs'>VS.</p>
-
-          <div className='choice'>
-            <img alt='Option 2' width='280' height='385' onClick={() => makeChoice('right')} src={rightItem.imageUrl}/>
-            <p hidden='true'>{rightItem.name.toUpperCase()}</p>
-          </div>
-        </div>
-        <br></br>
-        <div className='buttonControls'>
-          <button className='button-23' onClick={() => undo()}>Undo</button>
-          <button className='button-23' onClick={() => makeChoice('tie')}>Skip</button>
-        </div>
-      </>
-    );
+  function buildItemList(name){
+    let result = {id: id, name: name, imageUrl: "/images/" + categoryData.foldername + "/" + name};
+    id++;
+    return result;
   }
+
+  const listOfMatchups = roundRobin(itemList)
+  const [currentRound, setCurrentRound] = useState(0);
+  const [scores, setScores] = useState( Array(itemList.length).fill(1000.0) );
+  const [matchHistory, setMatchHistory] = useState([]);
+
+  
+  function handleKeyPress(event) {
+    if(event.key === "ArrowDown")
+      undo();
+    else if(event.key === "ArrowUp")
+      makeChoice('tie');
+
+
+    // you have to do this or else we get 1 million keydowns per millisecond
+    else if (event.repeat)
+      return 
+
+    else if(event.key === "ArrowLeft")
+      makeChoice("left");
+    else if(event.key === "ArrowRight")
+      makeChoice("right");
+    
+  }
+
+  function updateScores(left, right, increment){
+    let incrementedScores = scores.slice();
+
+    incrementedScores[left] += increment;
+    incrementedScores[right] -= increment;
+    setScores(incrementedScores);
+
+    let newHistory = matchHistory.slice();
+    newHistory.push({left, right, increment});
+    setMatchHistory(newHistory);
+  }
+
+  function undo(){
+    if(currentRound === 0)
+      return
+
+    setCurrentRound(currentRound-1);
+  
+    let newHistory = matchHistory.slice();
+    let lastMatch = newHistory.pop();
+
+    // reverse the last match
+    updateScores(
+      lastMatch.left, lastMatch.right, lastMatch.increment*-1);
+    setMatchHistory(newHistory);
+  }
+
+  function makeChoice(chosenValue){
+    if(gameOver)
+      return
+    let choices = listOfMatchups[currentRound];
+    let left = choices[0]; let right = choices[1];
+    let result = -1;
+
+    if(chosenValue === 'left')
+      result = 1;
+    else if(chosenValue === 'right')
+      result = 0;
+    else if(chosenValue === 'tie')
+      result = 0.5;
+
+    let increment = getRatingDelta(scores[left], scores[right], result)
+
+    updateScores(left, right, increment);
+    setCurrentRound(currentRound + 1);
+  }
+
+  
+
+  let leftItem, rightItem = {id: -1, name: '', imageUrl: ''};
+  let gameOver = currentRound === listOfMatchups.length;
+
+  React.useEffect(function setupListener() {
+    window.addEventListener("keydown", handleKeyPress)
+
+    return function cleanupListener() {
+      window.removeEventListener("keydown", handleKeyPress)
+    }
+  })
+
+  if(gameOver){
+    let itemsWithScores = []
+    for(let i=0; i<itemList.length; i++){
+      itemsWithScores.push(
+        {score: scores[i], name: itemList[i].name, id: itemList[i].id, imageUrl: itemList[i].imageUrl})
+    }
+    itemsWithScores.sort((a, b) => a.score-b.score).reverse();
+
+    return <Results itemsWithScores={itemsWithScores} />;
+
+
+  }
+  else{
+    // update choices
+    leftItem = itemList[ listOfMatchups[currentRound][0] ];
+    rightItem = itemList[ listOfMatchups[currentRound][1] ];
+  }
+
+
+  return(
+    <>
+      <div className='ChoiceArea'>
+        <div className='choice'>
+          <img alt='Option 1' width='280' height='385' onClick={() => makeChoice('left')} src={leftItem.imageUrl} />
+          <p hidden='true'>{leftItem.name.toUpperCase()}</p>
+        </div>
+
+        <p className='vs'>VS.</p>
+
+        <div className='choice'>
+          <img alt='Option 2' width='280' height='385' onClick={() => makeChoice('right')} src={rightItem.imageUrl}/>
+          <p hidden='true'>{rightItem.name.toUpperCase()}</p>
+        </div>
+      </div>
+      <br></br>
+      <div className='buttonControls'>
+        <button className='button-23' onClick={() => undo()}>Undo</button>
+        <button className='button-23' onClick={() => makeChoice('tie')}>Skip</button>
+      </div>
+    </>
+  );
+}

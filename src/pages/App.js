@@ -1,19 +1,27 @@
+import { useState } from 'react';
 import '../css/App.css';
 import ChoiceArea from './ChoiceArea';
-import testList from '../data/testdata.json';
-import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 // fav sorter for arbitrary things
 // maybe you could swipe options away like cards
 
+import data from '../data.json'
+
 function App() {
-  return (
-    <BrowserRouter>
-      <Routes>
-          <Route index element={<ChoiceArea itemList={testList.real_games}/>} />
-      </Routes>
-    </BrowserRouter>
-  );
+  const [category, setCategory] = useState('');
+
+  const mainMenu = <>
+    <p>Select your whatever</p>
+    <button onClick={() => setCategory(data.pixarmovies)}>Pixar Movies</button>
+  </>
+
+
+  if(category === ''){
+    return mainMenu;
+  }
+  else{
+    return <ChoiceArea categoryData={category}/>
+  }
 }
 
 
