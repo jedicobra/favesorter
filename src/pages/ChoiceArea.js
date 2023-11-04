@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Results from './Results';
+import '../css/ChoiceArea.css'
 
 function getRatingDelta(myRating, opponentRating, myGameResult) {
   if ([0, 0.5, 1].indexOf(myGameResult) === -1) {
@@ -47,13 +48,20 @@ function roundRobin(items){
 }
 
 
+// doing this with elo is so bad
+// need to get the number of matches down
+// gamefaqssort with 128 items takes 127-448 matches with that google translated japanese source code
 
 export default function ChoiceArea({categoryData}){
   let id = 0;
-  let itemList = categoryData.filenames.map(name => buildItemList(name))
+  let itemList = categoryData.filenames.map(name => buildItem(name))
 
-  function buildItemList(name){
-    let result = {id: id, name: name, imageUrl: "/images/" + categoryData.foldername + "/" + name};
+  function buildItem(name){
+    let result = {
+      id: id, 
+      name: name, 
+      imageUrl: "/images/" + categoryData.foldername + "/" + name
+    };
     id++;
     return result;
   }
@@ -163,23 +171,25 @@ export default function ChoiceArea({categoryData}){
 
   return(
     <>
+      <p className='progressIndicator'>{listOfMatchups.length - currentRound} matches remaining</p>
+
       <div className='ChoiceArea'>
         <div className='choice'>
           <img alt='Option 1' width='280' height='385' onClick={() => makeChoice('left')} src={leftItem.imageUrl} />
-          <p hidden='true'>{leftItem.name.toUpperCase()}</p>
+          <p >{leftItem.name.toUpperCase()}</p>
         </div>
 
         <p className='vs'>VS.</p>
 
         <div className='choice'>
           <img alt='Option 2' width='280' height='385' onClick={() => makeChoice('right')} src={rightItem.imageUrl}/>
-          <p hidden='true'>{rightItem.name.toUpperCase()}</p>
+          <p >{rightItem.name.toUpperCase()}</p>
         </div>
       </div>
       <br></br>
       <div className='buttonControls'>
-        <button className='button-23' onClick={() => undo()}>Undo</button>
-        <button className='button-23' onClick={() => makeChoice('tie')}>Skip</button>
+        <button className='button-23' onClick={() => undo()}>Undo ↓</button>
+        <button className='button-23' onClick={() => makeChoice('tie')}>Skip ↑</button>
       </div>
     </>
   );
