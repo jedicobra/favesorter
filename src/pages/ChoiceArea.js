@@ -2,60 +2,36 @@ import React, { useState } from 'react';
 import Results from './Results';
 import '../css/ChoiceArea.css'
 
-function getRatingDelta(myRating, opponentRating, myGameResult) {
-  if ([0, 0.5, 1].indexOf(myGameResult) === -1) {
-    return null;
-  }
-  
-  var myChanceToWin = 1 / ( 1 + Math.pow(10, (opponentRating - myRating) / 400));
-
-  return Math.round(32 * (myGameResult - myChanceToWin));
-}
-
-
-function roundRobin(items){
-    let DUMMY = -1
-
-    let numItems = items.length
-
-    const rounds = [];
-    if (!items) {
-      items = [];
-      for (let k = 1; k <= numItems; k += 1) {
-        items.push(k);
-      }
-    } else {
-      items = items.slice();
-    }
-    
-    if (numItems % 2 === 1) {
-      items.push(DUMMY); // so we can match algorithm for even numbers
-      numItems += 1;
-    }
-    for (let j = 0; j < numItems - 1; j += 1) {
-      for (let i = 0; i < numItems / 2; i += 1) {
-        const o = numItems - 1 - i;
-        if (items[i] !== DUMMY && items[o] !== DUMMY) {
-          // flip orders to ensure everyone gets roughly n/2 home matches
-          const isHome = i === 0 && j % 2 === 1;
-          // insert pair as a match - [ away, home ]
-          rounds.push([isHome ? items[o].id : items[i].id, isHome ? items[i].id : items[o].id]);
-        }
-      }
-      items.splice(1, 0, items.pop()); // permutate for next round
-    }
-    return rounds;
-}
-
 
 // doing this with elo is so bad
 // need to get the number of matches down
 // gamefaqssort with 128 items takes 127-448 matches with that google translated japanese source code
 
 export default function ChoiceArea({categoryData}){
+
+  const [currentListIndex, setCurrentListIndex] = useState(0);
+  const [currentList, setCurrentList] = useState([]);
+  const [sublistIndex, setSublistIndex] = useState(0)
+  const [nextList, setNextList] = useState([]);
+  const [justStarted, setJustStarted] = useState(true);
+  const [sublistLength, setSublistLength] = useState(1)
+
+  React.useEffect(function setupListener() {
+    window.addEventListener("keydown", handleKeyPress)
+
+    return function cleanupListener() {
+      window.removeEventListener("keydown", handleKeyPress)
+    }
+  })
+  
+  
+
+  
+
+
+  // TODO this should get done in App or somewhere
   let id = 0;
   let itemList = categoryData.filenames.map(name => buildItem(name))
-
   function buildItem(name){
     let result = {
       id: id, 
@@ -66,112 +42,59 @@ export default function ChoiceArea({categoryData}){
     return result;
   }
 
-  const listOfMatchups = roundRobin(itemList)
-  const [currentRound, setCurrentRound] = useState(0);
-  const [scores, setScores] = useState( Array(itemList.length).fill(1000.0) );
-  const [matchHistory, setMatchHistory] = useState([]);
-
-  
-  function handleKeyPress(event) {
-    if(event.key === "ArrowDown")
-      undo();
-    else if(event.key === "ArrowUp")
-      makeChoice('tie');
-
-
-    // you have to do this or else we get 1 million keydowns per millisecond
-    else if (event.repeat)
-      return 
-
-    else if(event.key === "ArrowLeft")
-      makeChoice("left");
-    else if(event.key === "ArrowRight")
-      makeChoice("right");
-    
-  }
-
-  function updateScores(left, right, increment){
-    let incrementedScores = scores.slice();
-
-    incrementedScores[left] += increment;
-    incrementedScores[right] -= increment;
-    setScores(incrementedScores);
-
-    let newHistory = matchHistory.slice();
-    newHistory.push({left, right, increment});
-    setMatchHistory(newHistory);
-  }
-
-  function undo(){
-    if(currentRound === 0)
-      return
-
-    setCurrentRound(currentRound-1);
-  
-    let newHistory = matchHistory.slice();
-    let lastMatch = newHistory.pop();
-
-    // reverse the last match
-    updateScores(
-      lastMatch.left, lastMatch.right, lastMatch.increment*-1);
-    setMatchHistory(newHistory);
-  }
-
-  function makeChoice(chosenValue){
-    if(gameOver)
-      return
-    let choices = listOfMatchups[currentRound];
-    let left = choices[0]; let right = choices[1];
-    let result = -1;
-
-    if(chosenValue === 'left')
-      result = 1;
-    else if(chosenValue === 'right')
-      result = 0;
-    else if(chosenValue === 'tie')
-      result = 0.5;
-
-    let increment = getRatingDelta(scores[left], scores[right], result)
-
-    updateScores(left, right, increment);
-    setCurrentRound(currentRound + 1);
-  }
 
   
 
+  if(justStarted){
+    // split into sublists for merge sort type situation
+    let splitList = itemList.map(item => [item])
+
+    setCurrentList(splitList);
+    setNextList([Math.ceil(currentList.length / 2.0)])
+    setJustStarted(false);
+  }
+
+
+  // if we're done with the current sublists move on to the next 2
+  // like [a, b, c, >d] [e, f, g, >h] ok done move on
+  // or some shit
+  if (sublistIndex === sublistLength){
+    setCurrentListIndex(currentListIndex + 1);
+    setSublistIndex(0)
+  }
+
+  let gameOver = false;
+
+  if(currentListIndex === currentList.length - 1){
+    // time to merge (go up a level)
+    let tempCurrentList = currentList;
+    setCurrentList(nextList);
+    setSublistLength(sublistLength * 2);
+
+    if(currentList.length === itemList.length)
+      gameOver = true;
+    else
+      setNextList([Math.ceil(tempCurrentList.length / 2.0)])
+  }
+  
   let leftItem, rightItem = {id: -1, name: '', imageUrl: ''};
-  let gameOver = currentRound === listOfMatchups.length;
-
-  React.useEffect(function setupListener() {
-    window.addEventListener("keydown", handleKeyPress)
-
-    return function cleanupListener() {
-      window.removeEventListener("keydown", handleKeyPress)
-    }
-  })
 
   if(gameOver){
-    let itemsWithScores = []
-    for(let i=0; i<itemList.length; i++){
-      itemsWithScores.push(
-        {score: scores[i], name: itemList[i].name, id: itemList[i].id, imageUrl: itemList[i].imageUrl})
-    }
-    itemsWithScores.sort((a, b) => a.score-b.score).reverse();
-
-    return <Results itemsWithScores={itemsWithScores} />;
-
-
+    return <Results sortedList={currentList} />;
   }
   else{
-    // update choices
-    leftItem = itemList[ listOfMatchups[currentRound][0] ];
-    rightItem = itemList[ listOfMatchups[currentRound][1] ];
+    let sublist1 = currentList[currentListIndex*2];
+    let sublist2 = currentList[currentListIndex*2 + 1];
+
+    leftItem = sublist1[sublistIndex];
+    rightItem = sublist2[sublistIndex];
   }
 
+  
 
   return(
     <>
-      <p className='progressIndicator'>{listOfMatchups.length - currentRound} matches remaining</p>
+      <p className='progressIndicator'>??? matches remaining</p>
 
       <div className='ChoiceArea'>
         <div className='choice'>
@@ -193,4 +116,48 @@ export default function ChoiceArea({categoryData}){
       </div>
     </>
   );
+
+
+  function makeChoice(choice) {
+    if(choice === 'left'){
+      nextList[currentListIndex] += leftItem;
+      nextList[currentListIndex] += rightItem;
+    }
+    else if(choice === 'right'){
+      nextList[currentListIndex] += rightItem;
+      nextList[currentListIndex] += leftItem;
+    }
+    else {
+      // who care
+    }
+
+    setSublistIndex(sublistIndex + 1);
+  }
+
+
+
+  function handleKeyPress(event) {
+    if(event.key === "ArrowDown")
+      undo();
+    else if(event.key === "ArrowUp")
+      makeChoice('tie');
+
+
+    // you have to do this or else we get 1 million keydowns per millisecond
+    else if (event.repeat)
+      return 
+
+    else if(event.key === "ArrowLeft")
+      makeChoice("left");
+    else if(event.key === "ArrowRight")
+      makeChoice("right");
+    
+  }
+
+  function undo() {
+    // make it again asshole
+  }
+
+
+
 }
