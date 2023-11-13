@@ -32,5 +32,21 @@
         "Up.jpg",
         "WALL-E.jpg"
     ]
+},
+
+"pixarlite": {
+    "foldername": "pixarmovies",
+    "filenames": [
+        "Cars.jpg",
+        "Finding_Nemo.jpg",
+        "Incredibles_2.jpg",
+        "Monsters,_Inc..jpg",
+        "Ratatouille.jpg",
+        "The_Incredibles.jpg",
+        "Toy_Story.jpg",
+        "Up.jpg",
+        "WALL-E.jpg"
+    ]
 }
+
 }

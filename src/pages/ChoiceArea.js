@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import Results from './Results';
 import '../css/ChoiceArea.css'
 
 
@@ -7,14 +6,24 @@ import '../css/ChoiceArea.css'
 // need to get the number of matches down
 // gamefaqssort with 128 items takes 127-448 matches with that google translated japanese source code
 
-export default function ChoiceArea({categoryData}){
+export default function ChoiceArea({categoryData, showResults}){
 
   const [currentListIndex, setCurrentListIndex] = useState(0);
   const [currentList, setCurrentList] = useState([]);
-  const [sublistIndex, setSublistIndex] = useState(0)
+  const [leftSublistIndex, setLeftSublistIndex] = useState(0)
+  const [rightSublistIndex, setRightSublistIndex] = useState(0)
   const [nextList, setNextList] = useState([]);
   const [justStarted, setJustStarted] = useState(true);
   const [sublistLength, setSublistLength] = useState(1)
+
+  const [gameOver, setGameOver] = useState(false)
+
+  React.useEffect(() => {
+    if(gameOver)
+      showResults(nextList[0])
+
+    
+  })  
 
   React.useEffect(function setupListener() {
     window.addEventListener("keydown", handleKeyPress)
@@ -22,73 +31,133 @@ export default function ChoiceArea({categoryData}){
     return function cleanupListener() {
       window.removeEventListener("keydown", handleKeyPress)
     }
-  })
-  
-  
+  })  
 
-  
-
-
-  // TODO this should get done in App or somewhere
-  let id = 0;
-  let itemList = categoryData.filenames.map(name => buildItem(name))
-  function buildItem(name){
-    let result = {
-      id: id, 
-      name: name, 
-      imageUrl: "/images/" + categoryData.foldername + "/" + name
-    };
-    id++;
-    return result;
-  }
-
-
-  
-
+  //probably like a hook for this
   if(justStarted){
-    // split into sublists for merge sort type situation
-    let splitList = itemList.map(item => [item])
+    let id = 0;
+    let itemList = categoryData.filenames.map(name => buildItem(name))
+    function buildItem(name){
+      let result = {
+        id: id, 
+        name: name, 
+        imageUrl: "/images/" + categoryData.foldername + "/" + name
+      };
+      id++;
+      return result;
+    }
 
+  
+    // split into length-1 sublists for merge sort type situation
+    let splitList = itemList.map(item => [item])
     setCurrentList(splitList);
-    setNextList([Math.ceil(currentList.length / 2.0)])
+
+    let tempNextList = new Array(Math.ceil(splitList.length / 2.0))
+    for(let i=0; i < tempNextList.length; i++)
+      tempNextList[i] = [];
+    setNextList(tempNextList)
+
     setJustStarted(false);
+
+    return
   }
+
+  if(nextList.length === 1 && nextList[0].length === categoryData.filenames.length){
+    if(gameOver === false)
+      setGameOver(true)
+    return null
+  }
+
+  
+    // when we're done with the current list, go up a level
+  if(currentListIndex >= Math.floor(currentList.length / 2)){
+
+    // odd numbered stepchild
+    let loneFinalSublist = null;
+    if(currentList.length % 2 === 1)
+      loneFinalSublist = currentList[currentListIndex*2];
+    
+
+    let tempNextList = nextList
+    if(loneFinalSublist){
+      loneFinalSublist.forEach(e =>
+        tempNextList[currentListIndex].push(e))
+    }
+    
+    setCurrentList(tempNextList);
+    setSublistLength(sublistLength * 2);
+    setCurrentListIndex(0);
+    setLeftSublistIndex(0);
+    setRightSublistIndex(0);
+
+    let newNextList = new Array(Math.ceil(nextList.length / 2.0))
+    for(let i=0; i < newNextList.length; i++)
+      newNextList[i] = [];
+    setNextList(newNextList)
+
+    return
+    
+
+  }
+
+
+  
+  
+  // mulitply by 2 cause we do 2 sublists at a time
+  let leftSublist = currentList[currentListIndex*2];
+  let rightSublist = currentList[currentListIndex*2 + 1];
 
 
   // if we're done with the current sublists move on to the next 2
   // like [a, b, c, >d] [e, f, g, >h] ok done move on
+  // or even [a, b, c, >d] [e, f, >g, h] the answer is known
   // or some shit
-  if (sublistIndex === sublistLength){
+  if (leftSublistIndex === leftSublist.length ){
+    let i = rightSublistIndex;
+    let rightSublist = currentList[currentListIndex*2 + 1];
+    let temp = nextList;
+    while (i < sublistLength){
+      temp[currentListIndex].push(rightSublist[i]);
+      i++;
+    }
+
+    setNextList(temp);
     setCurrentListIndex(currentListIndex + 1);
-    setSublistIndex(0)
+    setLeftSublistIndex(0)
+    setRightSublistIndex(0)
+
+
+    return
+  }
+  else if (rightSublistIndex === rightSublist.length ){
+    let i = leftSublistIndex;
+    let leftSublist = currentList[currentListIndex*2];
+    let temp = nextList;
+    while (i < sublistLength){
+      temp[currentListIndex].push(leftSublist[i]);
+      i++;
+    }
+
+    setNextList(temp);
+    setCurrentListIndex(currentListIndex + 1);
+    setLeftSublistIndex(0)
+    setRightSublistIndex(0)
+
+    return
   }
 
-  let gameOver = false;
-
-  if(currentListIndex === currentList.length - 1){
-    // time to merge (go up a level)
-    let tempCurrentList = currentList;
-    setCurrentList(nextList);
-    setSublistLength(sublistLength * 2);
-
-    if(currentList.length === itemList.length)
-      gameOver = true;
-    else
-      setNextList([Math.ceil(tempCurrentList.length / 2.0)])
-  }
+  
   
   let leftItem, rightItem = {id: -1, name: '', imageUrl: ''};
 
-  if(gameOver){
-    return <Results sortedList={currentList} />;
-  }
-  else{
-    let sublist1 = currentList[currentListIndex*2];
-    let sublist2 = currentList[currentListIndex*2 + 1];
-
-    leftItem = sublist1[sublistIndex];
-    rightItem = sublist2[sublistIndex];
-  }
+  console.log("\n")
+  console.log(currentListIndex)
+  console.log(currentList)
+  console.log(nextList)
+  
+  leftItem = leftSublist[leftSublistIndex];
+  rightItem = rightSublist[rightSublistIndex];
+  
 
   
 
@@ -119,19 +188,22 @@ export default function ChoiceArea({categoryData}){
 
 
   function makeChoice(choice) {
+    let temp = nextList;
+
     if(choice === 'left'){
-      nextList[currentListIndex] += leftItem;
-      nextList[currentListIndex] += rightItem;
+      temp[currentListIndex].push(leftItem);
+      setLeftSublistIndex(leftSublistIndex + 1);
     }
     else if(choice === 'right'){
-      nextList[currentListIndex] += rightItem;
-      nextList[currentListIndex] += leftItem;
+      temp[currentListIndex].push(rightItem);
+      setRightSublistIndex(rightSublistIndex + 1);
     }
     else {
       // who care
     }
 
-    setSublistIndex(sublistIndex + 1);
+    setNextList(temp)
+
   }
 
 
