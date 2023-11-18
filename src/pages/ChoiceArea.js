@@ -198,6 +198,12 @@ export default function ChoiceArea({categoryData, showResults}){
       temp[currentListIndex].push(rightItem);
       setRightSublistIndex(rightSublistIndex + 1);
     }
+    else if(choice === 'tie'){
+      temp[currentListIndex].push(leftItem);
+      temp[currentListIndex].push(rightItem);
+      setRightSublistIndex(rightSublistIndex + 1);
+      setLeftSublistIndex(leftSublistIndex + 1);
+    }
     else {
       // who care
     }
