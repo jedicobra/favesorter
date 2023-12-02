@@ -1,7 +1,7 @@
 .header {
     height: 65px;
     border-bottom: 0.5px solid gray;
-    background: #000000;
+    background: rgba(0, 0, 0, 0.2);
     position: absolute;
     top: 0;
     left: 0;

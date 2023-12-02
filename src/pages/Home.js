@@ -10,6 +10,14 @@ function Home() {
 
   return <div className='homeMenuMain'>
     <br></br>
+    <h1>My journey</h1>
+    <p>
+      Find your favorite whatever
+      <br></br>
+      Based on <a href="https://slimedrippings.tumblr.com/gamefaqssort">this website</a> 
+    </p>
+
+
     <h1>Premade templates</h1>
     <p>These are just some lists I made arbitrarily</p>
 

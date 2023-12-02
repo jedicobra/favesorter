@@ -18,9 +18,13 @@ export default function ChoiceArea(){
   const [sublistLength, setSublistLength] = useState(1)
 
   const [gameOver, setGameOver] = useState(false)
+  const [counter, setCounter] = useState(0)
 
   let location = useLocation();
   const categoryData = location.state.categoryData;
+
+  let n = categoryData.filenames.length;
+  const totalRoundEstimate = n*Math.ceil( Math.log2(n) ) - 2^Math.ceil( Math.log2(n) ) + 1
 
 
   React.useEffect(() => {
@@ -169,7 +173,7 @@ export default function ChoiceArea(){
 
   return(
     <div className="mainBox">
-      <p className='progressIndicator'>??? matches remaining</p>
+      <p className='progressIndicator'>{Math.floor((counter / totalRoundEstimate)*100)}% done</p>
 
       <div className='choiceHolder'>
         <div className='choice'>
@@ -216,6 +220,7 @@ export default function ChoiceArea(){
       // who care
     }
 
+    setCounter(counter + 1)
     setNextList(temp)
 
   }
