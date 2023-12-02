@@ -4,6 +4,10 @@ import { useNavigate } from "react-router-dom"
 export default function CategoryPreview({category}){
     const navigate = useNavigate();
 
+    if(!category.filenames){
+        return <p>Couldn't get image files.</p>
+    }
+
     let photos = []
     let numPhotos = 5
     if(category.filenames.length < 5)
