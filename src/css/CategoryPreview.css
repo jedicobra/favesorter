@@ -1,0 +1,36 @@
+
+.previewMain{
+  position: relative;
+  border: 1px solid gray;
+  margin-bottom: 20px;
+}
+
+.previewMain::after {
+    content: "";
+    clear: both;
+    display: table;
+  }
+
+  .previewMain:hover{
+    opacity: 0.8;
+  }
+
+  .previewLabel{
+
+    min-height: 30px;
+
+    background-color: black;
+
+    text-align: left;
+    text-indent: 2%;
+    font-size: large;
+    padding: 5px;
+  }
+
+  .previewLabel > i{
+    text-align: right;
+  }
+
+  .previewImg {
+    float: left;
+  }

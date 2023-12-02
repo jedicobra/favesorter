@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import '../css/ChoiceArea.css'
+import { useLocation } from 'react-router-dom';
 
 
 // doing this with elo is so bad
 // need to get the number of matches down
 // gamefaqssort with 128 items takes 127-448 matches with that google translated japanese source code
 
-export default function ChoiceArea({categoryData, showResults}){
+export default function ChoiceArea(){
 
   const [currentListIndex, setCurrentListIndex] = useState(0);
   const [currentList, setCurrentList] = useState([]);
@@ -18,9 +19,14 @@ export default function ChoiceArea({categoryData, showResults}){
 
   const [gameOver, setGameOver] = useState(false)
 
+  let location = useLocation();
+  const categoryData = location.state.categoryData;
+
+
   React.useEffect(() => {
     if(gameOver)
-      showResults(nextList[0])
+      console.log("game over. redo the results code")
+      //showResults(nextList[0])
 
     
   })  
@@ -162,20 +168,22 @@ export default function ChoiceArea({categoryData, showResults}){
   
 
   return(
-    <>
+    <div className="mainBox">
       <p className='progressIndicator'>??? matches remaining</p>
 
-      <div className='ChoiceArea'>
+      <div className='choiceHolder'>
         <div className='choice'>
-          <img alt='Option 1' width='280' height='385' onClick={() => makeChoice('left')} src={leftItem.imageUrl} />
-          <p >{leftItem.name.toUpperCase()}</p>
+          <img alt='Option 1' width='280' height='385' onClick={() => makeChoice('left')} 
+            src={leftItem.imageUrl} />
+          <p >{stripName(leftItem.name)}</p>
         </div>
 
         <p className='vs'>VS.</p>
 
         <div className='choice'>
-          <img alt='Option 2' width='280' height='385' onClick={() => makeChoice('right')} src={rightItem.imageUrl}/>
-          <p >{rightItem.name.toUpperCase()}</p>
+          <img alt='Option 2' width='280' height='385' onClick={() => makeChoice('right')}
+             src={rightItem.imageUrl}/>
+          <p >{stripName(rightItem.name)}</p>
         </div>
       </div>
       <br></br>
@@ -183,7 +191,7 @@ export default function ChoiceArea({categoryData, showResults}){
         <button className='button-23' onClick={() => undo()}>Undo ↓</button>
         <button className='button-23' onClick={() => makeChoice('tie')}>Skip ↑</button>
       </div>
-    </>
+    </div>
   );
 
 
@@ -230,6 +238,11 @@ export default function ChoiceArea({categoryData, showResults}){
     else if(event.key === "ArrowRight")
       makeChoice("right");
     
+  }
+
+  function stripName(name){
+    // convert underscore to space and remove file extension
+    return name.replaceAll('_', ' ').slice(0, name.lastIndexOf('.'))
   }
 
   function undo() {

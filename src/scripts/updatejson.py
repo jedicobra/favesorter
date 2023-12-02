@@ -14,6 +14,7 @@ for folder in os.listdir(imagespath):
         needToUpdate = True
         print("adding " + folder + " to data.json")
         data[folder] = {}
+        data[folder]["prettyname"] = input("Name of category: ")
         data[folder]["foldername"] = folder
         data[folder]["filenames"] = []
 
